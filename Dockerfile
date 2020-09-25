@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi8/ubi-minimal:latest
+FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
 ARG PROJECT
 ARG TOKEN
