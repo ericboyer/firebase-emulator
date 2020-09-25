@@ -41,3 +41,9 @@ To deploy to OpenShift:
   oc expose svc/firebase-emulator --port=8080 --name firestore
   oc expose svc/firebase-emulator --port=8088 --name firebase-ui
   ```
+
+Now you can configure and run your tests manually (or automated), but you'll
+need to use `http://HOST:PORT/emulator/v1/projects/\(projectId)/databases/(default)/documents`
+URL string to interface with emulator. HOST and PORT will vary depending on
+whether you're running the container locally (ex: http://localhost:8080) or within
+OpenShift (ex: `http://firestore-${project}.apps.${clusterSubdomain}`).
