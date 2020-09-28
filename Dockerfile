@@ -4,9 +4,11 @@ ARG PROJECT
 ARG TOKEN
 
 # install packages
-RUN microdnf install tar gzip shadow-utils sudo
+RUN microdnf install tar gzip shadow-utils sudo && \
+  useradd -ms /bin/bash firebase && \
+  usermod -aG root firebase
 
-WORKDIR /firebase
+WORKDIR /home/firebase
 
 ADD config/* ./
 ADD install-openjdk8-jre.sh .
@@ -19,5 +21,8 @@ RUN chmod u+x install-openjdk8-jre.sh && \
 # expose firestore and UI ports
 EXPOSE 8080 8088
 
+# switch user ...
+USER firebase
+
 # and start emulators
-CMD firebase -P $PROJECT emulators:start --token $TOKEN
+CMD firebase -P $PROJECT emulators:start --token $TOKEN --debug
