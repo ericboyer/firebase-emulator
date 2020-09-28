@@ -3,12 +3,10 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 ARG PROJECT
 ARG TOKEN
 
-# create non-privileged user
-RUN microdnf install tar gzip shadow-utils sudo && \
-  useradd -ms /bin/bash firebase && \
-  usermod -aG wheel firebase
+# install packages
+RUN microdnf install tar gzip shadow-utils sudo
 
-WORKDIR /home/firebase
+WORKDIR /firebase
 
 ADD config/* ./
 ADD install-openjdk8-jre.sh .
@@ -20,9 +18,6 @@ RUN chmod u+x install-openjdk8-jre.sh && \
 
 # expose firestore and UI ports
 EXPOSE 8080 8088
-
-# switch user ...
-USER firebase
 
 # and start emulators
 CMD firebase -P $PROJECT emulators:start --token $TOKEN
